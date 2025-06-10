@@ -1,0 +1,12 @@
+{
+  "name": "webworker",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "http-server -p 9000"
+  },
+  "keywords": [],
+  "author": "Sonam Gupta",
+  "license": "ISC",
+  "type": "commonjs"
+}
