@@ -3,10 +3,39 @@
   const list = document.getElementById("list");
   const button = document.getElementById("button");
   const message = document.getElementById("message");
+  const internetStatus = document.getElementById("internet_status");
   list.style.fontSize = "12px";
   let worker;
+  let isConnected = "onLine" in navigator ? true : false;
 
-  document.addEventListener("DOMContentLoaded", addListener);
+  document.addEventListener("DOMContentLoaded", onLoad);
+
+  function onLoad() {
+    addListener();
+    setStatus();
+    window.addEventListener("online", handleOnlineStatus);
+    window.addEventListener("offline", handleOfflineStatus);
+  }
+
+  function handleOnlineStatus() {
+    isConnected = true;
+    setStatus();
+  }
+
+  function handleOfflineStatus() {
+    isConnected = false;
+    setStatus();
+  }
+
+  function setStatus() {
+    if (!isConnected) {
+      internetStatus.innerHTML = "Off";
+      internetStatus.style.color = "red";
+    } else {
+      internetStatus.innerHTML = "On";
+      internetStatus.style.color = "green";
+    }
+  }
 
   function addListener() {
     button.innerHTML = "Start Worker";
