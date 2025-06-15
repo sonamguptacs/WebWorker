@@ -2,15 +2,19 @@
 
 self.addEventListener("message", (event) => {
   if (event.data == "start") {
-    self.postMessage("Web Worker Started to print factorial");
+    self.postMessage({
+      id: "start",
+      message: "Web Worker Started to print factorial",
+    });
     printFactorial(1);
   }
 });
 
-let fact = 1;
-
 function printFactorial(n) {
-  fact = fact * n;
-  self.postMessage(fact);
-  setInterval(() => printFactorial(n + 1), 5000);
+  let fact = 1;
+  for (let i = n; i > 1; i--) {
+    fact = fact * i;
+  }
+  self.postMessage({ id: n, message: fact });
+  setTimeout(() => printFactorial(n + 1), 1000);
 }

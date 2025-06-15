@@ -1,9 +1,9 @@
 (function () {
   "use strict";
-  const rootElement = document.getElementById("root");
-  const list = document.createElement("div");
-  rootElement.appendChild(list);
+  const list = document.getElementById("list");
   const button = document.getElementById("button");
+  const message = document.getElementById("message");
+  list.style.fontSize = "12px";
   let worker;
 
   document.addEventListener("DOMContentLoaded", addListener);
@@ -17,9 +17,8 @@
     worker.terminate();
     button.removeEventListener("click", stopWorker);
     addListener();
-    const p = document.createElement("p");
-    p.innerHTML = "Worker Stopped";
-    list.appendChild(p);
+    message.innerHTML = "Worker Stopped";
+    message.style.color = "red";
   }
 
   function startWorker() {
@@ -34,9 +33,14 @@
     worker = new Worker("worker.js");
     worker.postMessage("start");
     worker.addEventListener("message", (event) => {
-      const p = document.createElement("p");
-      p.innerHTML = event.data;
-      list.appendChild(p);
+      if (event.data.id == "start") {
+        message.innerHTML = event.data.message;
+        message.style.color = "green";
+      } else {
+        const p = document.createElement("p");
+        p.innerHTML = `${event.data.id}:${event.data.message}`;
+        list.appendChild(p);
+      }
     });
   }
 })();
